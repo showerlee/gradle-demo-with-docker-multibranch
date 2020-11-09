@@ -10,7 +10,7 @@ The repo contains Jenkinsfile, ansible playbook, Java application, gradle config
 
 ## Procedure
 
-![Pipeline steps](./docs/pipeline.png)
+![Pipeline steps](./docs/blueocrean-1.png)
 
 ```txt
 Checkout source code  ==> Functional test ==> Build and release image  ==> Initialize test env ==> Deploy test env via ansible ==> Health Check in test env ==> Initialize prod env ==> Deploy prod env via ansible ==> Health Check in prod env
