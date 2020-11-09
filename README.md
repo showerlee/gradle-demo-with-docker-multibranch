@@ -46,7 +46,7 @@ Ansible ===> Deployment tool
 
 3. Create a jenkins pipeline item
 
-4. Setup github(webhook) and AnsiColor jenkins plugin
+4. Setup jenkins plugin: `Multibranch Scan Webhook Trigger` and `AnsiColor`
 
 5. Provision current repo in pipeline setting with proper credential
 
