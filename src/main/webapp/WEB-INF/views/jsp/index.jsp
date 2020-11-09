@@ -65,7 +65,7 @@
 
 	<hr>
 	<footer>
-		<p>&copy; showerlee Technologies 2019</p>
+		<p>&copy; showerlee Technologies 2020</p>
 	</footer>
 </div>
 
