@@ -46,8 +46,40 @@ Ansible ===> Deployment tool
 
 3. Create a jenkins pipeline item
 
-4. Setup jenkins plugin: `Multibranch Scan Webhook Trigger` and `AnsiColor`
+4. Setup jenkins plugin:
+
+    ```txt
+    Multibranch Scan Webhook Trigger
+    Blue Ocean
+    AnsiColor
+    ```
 
 5. Provision current repo in pipeline setting with proper credential
 
 6. Rock and roll
+
+## Test
+
+### Run locally
+
+- Startup the gradle demo in local
+
+  ```bash
+  ./auto/start-local-dev
+  ```
+
+- Stop the gradle demo in local
+
+  ```bash
+  ./auto/stop-local-dev
+  ```
+
+### Local/Functional test
+
+Run the following command for local functional test, this would be helpful to test demo before commit a change.
+
+```bash
+./auto/run-functional-test
+```
+
+This test will be run as a mandatory check in the pipeline before we really build the image.
