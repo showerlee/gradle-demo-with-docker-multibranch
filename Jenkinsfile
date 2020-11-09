@@ -1,7 +1,6 @@
 #!groovy
 
 pipeline {
-    agent{node {label 'master'}}
 
     options {
         timestamps ()
@@ -21,6 +20,11 @@ pipeline {
     
     stages {
         stage("Functional test"){
+            agent{
+                node {
+                    label 'master'
+                }
+            }
             steps{
                 sh """
                 echo "[INFO] Run functional test"
@@ -30,6 +34,11 @@ pipeline {
         }
 
         stage("Build and Release Image"){
+            agent{
+                node {
+                    label 'master'
+                }
+            }
             when {
                 branch 'master'
             }
@@ -49,6 +58,11 @@ pipeline {
         stage("Initialize test env"){
             environment {
                 DEPLOY_ENV="test"
+            }
+            agent{
+                node {
+                    label 'master'
+                }
             }
             when {
                 branch 'master'
@@ -71,6 +85,11 @@ pipeline {
             environment {
                 DEPLOY_ENV="test"
             }
+            agent{
+                node {
+                    label 'master'
+                }
+            }
             when {
                 branch 'master'
             }
@@ -87,6 +106,11 @@ pipeline {
             environment {
                 DEPLOY_ENV="test"
             }
+            agent{
+                node {
+                    label 'master'
+                }
+            }
             when {
                 branch 'master'
             }
@@ -101,6 +125,11 @@ pipeline {
         stage("Initialize prod env"){
             environment {
                 DEPLOY_ENV="prod"
+            }
+            agent{
+                node {
+                    label 'master'
+                }
             }
             when {
                 branch 'master'
@@ -123,6 +152,11 @@ pipeline {
             environment {
                 DEPLOY_ENV="prod"
             }
+            agent{
+                node {
+                    label 'master'
+                }
+            }
             when {
                 branch 'master'
             }
@@ -138,6 +172,11 @@ pipeline {
         stage("Health Check in prod env"){
             environment {
                 DEPLOY_ENV="prod"
+            }
+            agent{
+                node {
+                    label 'master'
+                }
             }
             when {
                 branch 'master'
