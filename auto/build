@@ -1,0 +1,11 @@
+#! /bin/bash -e
+
+cd $(dirname $0)/..
+source ./auto/set-env-vars
+
+VERSION=${1:-'dev'}
+
+docker-compose down --remove-orphans
+
+docker volume create --name gradle-cache > /dev/null
+docker-compose build

@@ -1,0 +1,6 @@
+[gradle-demo-with-docker]
+www.test.example.com ansible_user=root
+
+[gradle-demo-with-docker:vars]
+host=www.test.example.com
+port=8083

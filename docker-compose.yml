@@ -1,0 +1,24 @@
+version: "3.6"
+
+services:
+  dev:
+    image: ${DOCKER_IMAGE}:${VERSION}
+    build: .
+    volumes:
+      - .:/app:rw
+      - gradle-cache:/home/gradle/.gradle
+    ports: 
+      - ${APP_PORT}:8080
+
+  ansible:
+    image: ${ANSIBLE_DOCKER_IMAGE}:${ANSIBLE_VERSION}
+    build:
+      context: ./ansible
+      cache_from:
+        - ${ANSIBLE_DOCKER_IMAGE}:latest
+      args:
+        VERSION: ${ANSIBLE_VERSION}
+
+volumes:
+  gradle-cache:
+    external: true

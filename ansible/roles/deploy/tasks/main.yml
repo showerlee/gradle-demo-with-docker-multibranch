@@ -1,0 +1,53 @@
+- name: Install docker
+  yum: name=docker state=latest  
+
+- name: Startup docker
+  service: name=docker state=started
+
+- name: Install python-pip
+  yum: name=python-pip state=latest
+
+- name: Install python docker api
+  shell: "pip install docker"
+
+- name: Check if remote service is running
+  shell: "docker ps | grep {{ project }}"
+  register: service_status
+  ignore_errors: true
+
+- name: Stop and remove remote service
+  shell: "docker rm $(docker ps -a | grep {{ project }} | awk '{print $1}') -f"
+  when: service_status.stdout != ""
+
+- name: Check if remote service image exists
+  shell: "docker images | grep {{ project }}"
+  register: image_status
+  ignore_errors: true
+
+- name: Remove all remote service images
+  shell: "docker rmi $(docker images | grep {{ project }} | awk '{print $3}') -f"
+  when: image_status.stdout != ""
+
+- name: Log into Nexus docker registry
+  docker_login:
+    registry: "{{ nexus_url }}"
+    username: "{{ nexus_user }}"
+    password: "{{ nexus_pass }}"
+    reauthorize: yes
+
+- name: "Spinup {{project}} docker container with current version"
+  docker_container:
+    name: "{{ project }}"
+    image: "{{ app_image }}"
+    ports:
+    - "{{ port }}:8080"
+  when: project == "gradle-demo-with-docker"
+
+- name: pause 10 seconds
+  pause: seconds=10
+
+- name: Run tomcat health check locally
+  script: "./roles/deploy/files/health-check.sh {{ host }} {{ port }} {{ project }}"
+  register: health_status
+
+- debug: msg="{{ health_status.stdout }}"
