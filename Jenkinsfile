@@ -30,6 +30,9 @@ pipeline {
         }
 
         stage("Build and Release Image"){
+            when {
+                branch 'master'
+            }
             steps{
                 withCredentials([usernamePassword(credentialsId: "${env.NEXUS_CREDENTIAL_ID}", usernameVariable: 'Nexus_USERNAME', passwordVariable: 'Nexus_PASSWORD')]) {
                     sh """
@@ -46,6 +49,9 @@ pipeline {
         stage("Initialize test env"){
             environment {
                 DEPLOY_ENV="test"
+            }
+            when {
+                branch 'master'
             }
             steps{
                 echo "[INFO] Initialize test env"
@@ -65,6 +71,9 @@ pipeline {
             environment {
                 DEPLOY_ENV="test"
             }
+            when {
+                branch 'master'
+            }
             steps{
                 echo "[INFO] Start deploying war to the destination server"
                 withCredentials([usernamePassword(credentialsId: "${env.NEXUS_CREDENTIAL_ID}", usernameVariable: 'Nexus_USERNAME', passwordVariable: 'Nexus_PASSWORD')]) {
@@ -78,6 +87,9 @@ pipeline {
             environment {
                 DEPLOY_ENV="test"
             }
+            when {
+                branch 'master'
+            }
             steps{
                 echo "[INFO] Health check for destination server"
                 sh "./auto/health-check ${env.DEPLOY_ENV} ${env.APP_PORT} ${env.PROJECT_NAME}"
@@ -89,6 +101,9 @@ pipeline {
         stage("Initialize prod env"){
             environment {
                 DEPLOY_ENV="prod"
+            }
+            when {
+                branch 'master'
             }
             steps{
                 echo "[INFO] Initialize prod env"
@@ -108,6 +123,9 @@ pipeline {
             environment {
                 DEPLOY_ENV="prod"
             }
+            when {
+                branch 'master'
+            }
             steps{
                 echo "[INFO] Start deploying war to the destination server"
                 withCredentials([usernamePassword(credentialsId: "${env.NEXUS_CREDENTIAL_ID}", usernameVariable: 'Nexus_USERNAME', passwordVariable: 'Nexus_PASSWORD')]) {
@@ -120,6 +138,9 @@ pipeline {
         stage("Health Check in prod env"){
             environment {
                 DEPLOY_ENV="prod"
+            }
+            when {
+                branch 'master'
             }
             steps{
                 echo "[INFO] Health check for destination server"
