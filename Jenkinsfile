@@ -53,6 +53,10 @@ pipeline {
                     ./auto/release-image
                     """
                 }
+                echo "[INFO] Upload image version"
+                script {
+                    IMAGE=readFile('artifacts/docker-image-released.txt').trim()
+                }
             }
         }
 
@@ -95,6 +99,11 @@ pipeline {
                 branch 'master'
             }
             steps{
+                echo "[INFO] Download image version"
+                sh """
+                mkdir artifacts/
+                echo ${IMAGE} > artifacts/docker-image-released.txt
+                """
                 echo "[INFO] Start deploying war to the destination server"
                 withCredentials([usernamePassword(credentialsId: "${env.NEXUS_CREDENTIAL_ID}", usernameVariable: 'Nexus_USERNAME', passwordVariable: 'Nexus_PASSWORD')]) {
                     sh "auto/ansible-playbook ${env.PROJECT_NAME} ${env.DEPLOY_ENV} ${env.Nexus_USERNAME} ${env.Nexus_PASSWORD} ${env.NEXUS_URL}"
