@@ -10,6 +10,7 @@ FAILED_NUM=0
 SUCCESS_NUM=0
 EXIT_CODE=0
 
+display_status "[INFO] Run functional test"
 ./auto/start-local-dev ${PROJECT_NAME}
 
 source ./test/libs

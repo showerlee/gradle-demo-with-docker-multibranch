@@ -3,6 +3,7 @@
 cd $(dirname $0)/..
 source ./auto/set-env-vars
 
+display_status "Clean up docker resources"
 if [[ ! -z $(docker images | grep ${APP_NAME}) ]]; then
     docker rmi $(docker images | grep ${APP_NAME} | awk '{print $3}') -f
 fi

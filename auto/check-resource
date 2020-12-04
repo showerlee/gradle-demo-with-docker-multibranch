@@ -11,3 +11,4 @@ ssh -p ${PORT} ${USER}@${DOMAIN} df -h
 echo ""
 echo "[INFO] Checking RAM space:"
 ssh -p ${PORT} ${USER}@${DOMAIN} free -m
+echo "[INFO] Env is ready to go..."
