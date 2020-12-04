@@ -6,4 +6,6 @@ PROJECT=$3
 
 DOMAIN="www.${ENV}.example.com"
 
+echo "[INFO] Health check for destination server"
 curl -Is http://$DOMAIN:$PORT/$PROJECT/ > /dev/null && echo "[INFO] The remote site http://$DOMAIN:$PORT/$PROJECT/ is healthy and good to go..." || echo "[INFO] The remote side is failed, please check..."
+echo "[INFO] Health check is complete, deployment is accomplished in ${ENV} :)"

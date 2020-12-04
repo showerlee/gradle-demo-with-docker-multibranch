@@ -9,7 +9,7 @@ NEXUS_USERNAME=$3
 NEXUS_PASSWORD=$4
 NEXUS_URL=$5
 
-echo "[INFO] Start ansible deployment via docker"
+display_status "[INFO] Start ansible deployment via docker"
 auto/ansible ansible-playbook \
     -i "inventory/${DEPLOY_ENV}" \
     "./deploy.yml" \
@@ -19,3 +19,4 @@ auto/ansible ansible-playbook \
     -e nexus_url="${NEXUS_URL}" \
     -e app_image="$(cat artifacts/docker-image-released.txt)"
 
+display_status "[INFO] Deployment is complete in ${DEPLOY_ENV} :)"

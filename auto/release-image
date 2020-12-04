@@ -3,6 +3,7 @@
 cd $(dirname $0)/..
 source ./auto/set-env-vars
 
+display_status "[INFO] Build and Release Image"
 export VERSION=dev-$(date +'%Y%m%d%H%M')
 auto/build $VERSION
 

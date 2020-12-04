@@ -28,7 +28,6 @@ pipeline {
             }
             steps{
                 sh """
-                echo "[INFO] Run functional test"
                 ./auto/run-functional-test
                 """
             }
@@ -46,10 +45,7 @@ pipeline {
             steps{
                 withCredentials([usernamePassword(credentialsId: "${env.NEXUS_CREDENTIAL_ID}", usernameVariable: 'Nexus_USERNAME', passwordVariable: 'Nexus_PASSWORD')]) {
                     sh """
-                    echo "[INFO] Login Nexus registry"
                     ./auto/login-nexus ${env.Nexus_USERNAME} ${env.Nexus_PASSWORD} ${env.NEXUS_URL}
-
-                    echo "[INFO] Build and Release Image"
                     ./auto/release-image
                     """
                 }
@@ -73,16 +69,11 @@ pipeline {
                 branch 'master'
             }
             steps{
-                echo "[INFO] Initialize test env"
                 sh """
-                echo "Clean up docker resources"
                 ./auto/clean-resource
-                echo "[INFO] Checking SSH connection:"
                 ./auto/test-ssh-connection ${env.SSH_USER} ${env.DEPLOY_ENV} ${env.SSH_PORT}
-                echo "[INFO] Checking Disk space:"
                 ./auto/check-resource ${env.SSH_USER} ${env.DEPLOY_ENV} ${env.SSH_PORT}
                 """
-                echo "[INFO] Env is ready to go..."
             }
         }
 
@@ -104,11 +95,9 @@ pipeline {
                 mkdir artifacts/
                 echo ${IMAGE} > artifacts/docker-image-released.txt
                 """
-                echo "[INFO] Start deploying war to the destination server"
                 withCredentials([usernamePassword(credentialsId: "${env.NEXUS_CREDENTIAL_ID}", usernameVariable: 'Nexus_USERNAME', passwordVariable: 'Nexus_PASSWORD')]) {
                     sh "auto/ansible-playbook ${env.PROJECT_NAME} ${env.DEPLOY_ENV} ${env.Nexus_USERNAME} ${env.Nexus_PASSWORD} ${env.NEXUS_URL}"
                 }
-                echo "[INFO] Deployment is complete in ${env.DEPLOY_ENV} :)"
             }
         }
 
@@ -125,9 +114,7 @@ pipeline {
                 branch 'master'
             }
             steps{
-                echo "[INFO] Health check for destination server"
                 sh "./auto/health-check ${env.DEPLOY_ENV} ${env.APP_PORT} ${env.PROJECT_NAME}"
-                echo "[INFO] Health check is complete, deployment is accomplished in ${env.DEPLOY_ENV} :)"
                 input("Start to deploy in prod?")
             }
         }
@@ -145,16 +132,11 @@ pipeline {
                 branch 'master'
             }
             steps{
-                echo "[INFO] Initialize prod env"
                 sh """
-                echo "Clean up docker resources in build agent"
                 ./auto/clean-resource
-                echo "[INFO] Checking SSH connection:"
                 ./auto/test-ssh-connection ${env.SSH_USER} ${env.DEPLOY_ENV} ${env.SSH_PORT}
-                echo "[INFO] Checking Disk space:"
                 ./auto/check-resource ${env.SSH_USER} ${env.DEPLOY_ENV} ${env.SSH_PORT}
                 """
-                echo "[INFO] Env is ready to go..."
             }
         }
 
@@ -176,11 +158,9 @@ pipeline {
                 mkdir artifacts/
                 echo ${IMAGE} > artifacts/docker-image-released.txt
                 """
-                echo "[INFO] Start deploying war to the destination server"
                 withCredentials([usernamePassword(credentialsId: "${env.NEXUS_CREDENTIAL_ID}", usernameVariable: 'Nexus_USERNAME', passwordVariable: 'Nexus_PASSWORD')]) {
                     sh "auto/ansible-playbook ${env.PROJECT_NAME} ${env.DEPLOY_ENV} ${env.Nexus_USERNAME} ${env.Nexus_PASSWORD} ${env.NEXUS_URL}"
                 }
-                echo "[INFO] Deployment is complete in ${env.DEPLOY_ENV} :)"
             }
         }
 
@@ -197,9 +177,7 @@ pipeline {
                 branch 'master'
             }
             steps{
-                echo "[INFO] Health check for destination server"
                 sh "./auto/health-check ${env.DEPLOY_ENV} ${env.APP_PORT} ${env.PROJECT_NAME}"
-                echo "[INFO] Health check is complete, deployment is accomplished in ${env.DEPLOY_ENV} :)"
             }
         }
 
