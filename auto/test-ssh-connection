@@ -8,7 +8,7 @@ DOMAIN="www.${ENV}.example.com"
 
 declare -i n=1
 
-display_status "[INFO] Checking SSH connection:"
+echo "[INFO] Checking SSH connection:"
 while ((n<=3))
 do
   STATUS=$(ssh -o BatchMode=yes -o ConnectTimeout=5 -p$3 ${USER}@${DOMAIN} echo ok 2>&1)
