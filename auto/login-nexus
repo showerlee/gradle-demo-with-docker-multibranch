@@ -6,5 +6,5 @@ Nexus_USERNAME=$1
 Nexus_PASSWORD=$2
 NEXUS_URL=$3
 
-display_status "[INFO] Login Nexus registry"
+echo "[INFO] Login Nexus registry"
 docker login -u ${Nexus_USERNAME} -p ${Nexus_PASSWORD} ${NEXUS_URL}
