@@ -14,7 +14,7 @@ public class HelloWorldService {
 
 		logger.debug("getDesc() is executed!");
 
-		return "Congratulation, gradle-demo-with-docker-multibranch is successfully deployed!!!!!";
+		return "Congratulation, gradle-demo-with-docker-multibranch is successfully deployed!!";
 
 	}
 
