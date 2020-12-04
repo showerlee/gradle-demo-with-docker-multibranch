@@ -14,7 +14,7 @@ public class HelloWorldService {
 
 		logger.debug("getDesc() is executed!");
 
-		return "Congratulation, gradle-demo-with-docker via Jenkins+Gradle+Docker+Ansible is login successfully";
+		return "Congratulation, gradle-demo-with-docker-multibranch is successfully deployed";
 
 	}
 
