@@ -1,4 +1,4 @@
-FROM alpine:3.9 as builder
+FROM alpine:3.10@sha256:f0e9534a598e501320957059cb2a23774b4d4072e37c7b2cf7e95b241f019e35 as builder
 
 RUN set -eux \
 	&& apk add --no-cache \
@@ -8,21 +8,25 @@ RUN set -eux \
 		make \
 		musl-dev \
 		openssl-dev \
+		build-base \
+		rust	\
+		py3-pip \
 		python3 \
 		python3-dev
 
 ARG VERSION
 RUN set -eux \
+	&& pip3 install --upgrade pip \
 	&& if [ "${VERSION}" = "latest" ]; then \
-		pip3 install --no-cache-dir --no-compile ansible docker; \
+		pip3 install --no-cache-dir --no-compile cryptography ansible docker; \
 	else \
-		pip3 install --no-cache-dir --no-compile "ansible>=${VERSION},<$(echo "${VERSION}+0.1" | bc)" docker; \
+		pip3 install --no-cache-dir --no-compile "cryptography ansible>=${VERSION},<$(echo "${VERSION}+0.1" | bc)" docker; \
 	fi \
 	&& find /usr/lib/ -name '__pycache__' -print0 | xargs -0 -n1 rm -rf \
 	&& find /usr/lib/ -name '*.pyc' -print0 | xargs -0 -n1 rm -rf
 
 
-FROM alpine:3.9 as production
+FROM alpine:3.10@sha256:f0e9534a598e501320957059cb2a23774b4d4072e37c7b2cf7e95b241f019e35 as production
 ARG VERSION
 RUN set -eux \
 	&& apk add --no-cache python3 openssh\
