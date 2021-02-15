@@ -4,7 +4,6 @@ RUN set -eux \
 	&& apk add --no-cache \
 		bc \
 		gcc \
-		rust \
 		libffi-dev \
 		make \
 		musl-dev \
