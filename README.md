@@ -54,7 +54,7 @@ Ansible ===> Deployment tool
     AnsiColor
     ```
 
-5. Provision current repo in pipeline setting with proper credential
+5. Provision current repo in pipeline setting with proper credentials
 
 6. Rock and roll
 
